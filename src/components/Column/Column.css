@@ -1,0 +1,4 @@
+.column {
+    width: calc(100%/7);
+    height: 100%;
+}
