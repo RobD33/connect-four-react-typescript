@@ -4,16 +4,19 @@ import Board from './components/Board/Board'
 
 function App() {
 
-  const [state, setState] = useState({ player: 1 })
+  const [state, setState] = useState({ currentPlayer: 1 })
 
-  const changePlayer = useCallback(() => {
-    let newState = state.player === 1 ? { player: 2 } : { player: 1 }
+  const changecurrentPlayer = useCallback(() => {
+    let newState = state.currentPlayer === 1 ? { currentPlayer: 2 } : { currentPlayer: 1 }
     setState(newState)
-  }, [state])
-  
+  }, [state.currentPlayer])
+
   return (
     <div>
-      <Board />
+      <Board
+        currentPlayer= {state.currentPlayer}
+        changeCurrentPlayer={changecurrentPlayer}
+      />
     </div>
   );
 }
