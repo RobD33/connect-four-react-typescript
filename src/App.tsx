@@ -8,20 +8,12 @@ import GameData from './data/GameData';
 import GameDataParams from './data/GameDataParams';
 
 function App() {
-
-  const [state, setState] = useState({ gameData: createNewGameData() })
-
-  const changePlayer = useCallback(() => {
-    const gameData = state.gameData;
-    gameData.changePlayer()
-    setState({ gameData })
-  }, [state.gameData])
+  const gameData :GameData = createNewGameData();
 
   return (
     <div>
       <Board
-        currentPlayer= {state.gameData.currentPlayer}
-        changePlayer={changePlayer}
+        gameData={ gameData }
       />
     </div>
   );
