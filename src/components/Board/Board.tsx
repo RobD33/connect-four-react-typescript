@@ -2,16 +2,17 @@ import React, { useCallback } from 'react';
 import Column from '../Column/Column'
 import './Board.css'
 import Player from '../../data/Player';
+import GameData from '../../data/GameData';
 
 
-const Board = ({ currentPlayer, changePlayer }: Props) => {
+const Board = ({ gameData }: Props) => {
 
     const [boardState, setBoardState] = React.useState(generateNewBoardState());
 
     const makeMove = useCallback((selectedColumn)=> {
-        setBoardState(calculateNewBoardState(selectedColumn, boardState, currentPlayer));
-        changePlayer();
-    }, [boardState, currentPlayer, changePlayer]);
+        setBoardState(calculateNewBoardState(selectedColumn, boardState, gameData.currentPlayer));
+        gameData.changePlayer();
+    }, [boardState, gameData.currentPlayer]);
 
     return (
         <div className="board">
@@ -60,7 +61,6 @@ const correctForOutOfBounds = (lowestAvailableCell: number, columnState: (Player
 }
 
 interface Props {
-    currentPlayer: Player;
-    changePlayer: Function;
+    gameData: GameData;
 }
 export default Board
