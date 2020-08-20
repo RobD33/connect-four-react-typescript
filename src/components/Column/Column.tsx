@@ -1,6 +1,7 @@
 import React from 'react';
 import Cell from '../Cell/Cell'
 import './Column.css'
+import Player from '../../data/Player';
 
 const Column = ({ columnState, makeMove }: Props) => {
     return (
@@ -10,12 +11,12 @@ const Column = ({ columnState, makeMove }: Props) => {
     )
 }
 
-function populateColumn(columnState: number[], makeMove: Function) {
+function populateColumn(columnState: (Player | null)[], makeMove: Function) {
     const column: JSX.Element[] = []
     for(let i = 0; i < columnState.length; i++) {
         column.push(<Cell
             key={ i }
-            cellState={ columnState[i] }
+            player={ columnState[i] }
             makeMove={ makeMove }
         />)
     }
@@ -23,7 +24,7 @@ function populateColumn(columnState: number[], makeMove: Function) {
 }
 
 interface Props {
-    columnState: number[];
+    columnState: (Player | null)[];
     makeMove: Function;
 }
 export default Column

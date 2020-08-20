@@ -1,16 +1,17 @@
 import React, { useCallback } from 'react';
 import Column from '../Column/Column'
 import './Board.css'
+import Player from '../../data/Player';
 
 
-const Board = ({ currentPlayer, changeCurrentPlayer }: Props) => {
+const Board = ({ currentPlayer, changePlayer }: Props) => {
 
     const [boardState, setBoardState] = React.useState(generateNewBoardState());
 
     const makeMove = useCallback((selectedColumn)=> {
         setBoardState(calculateNewBoardState(selectedColumn, boardState, currentPlayer));
-        changeCurrentPlayer();
-    }, [boardState, currentPlayer, changeCurrentPlayer]);
+        changePlayer();
+    }, [boardState, currentPlayer, changePlayer]);
 
     return (
         <div className="board">
@@ -19,7 +20,7 @@ const Board = ({ currentPlayer, changeCurrentPlayer }: Props) => {
     );
 };
 
-const populateBoard = ( boardState: number[][], makeMove: Function ) => {
+const populateBoard = ( boardState: (Player | null)[][], makeMove: Function ) => {
     const board: JSX.Element[] = [];
     for(let i = 0; i < 7; i++){
         board.push(<Column 
@@ -31,35 +32,35 @@ const populateBoard = ( boardState: number[][], makeMove: Function ) => {
     return board;
 }
 
-const generateNewBoardState = () => {
-    const board: number[][] = [];
+const generateNewBoardState= () : (Player | null)[][] => {
+    const board: null[][] = [];
     for(let i = 0; i < 7; i++){
-        let column: number[] = [];
+        let column: null[] = [];
         for(let j = 0; j < 6; j++){
-        column.push(0);
+        column.push(null);
         }
         board.push(column);
     }
     return board;
 }
 
-const calculateNewBoardState = (selectedColumn: number, boardState: number[][], currentPlayer: number) => {
+const calculateNewBoardState = (selectedColumn: number, boardState: (Player | null)[][], currentPlayer: Player) => {
     let lowestAvailableCell = findLowestAvailableCell(selectedColumn, boardState);
     lowestAvailableCell = correctForOutOfBounds(lowestAvailableCell, boardState[selectedColumn])
     boardState[selectedColumn][lowestAvailableCell] = currentPlayer;
     return boardState;
 }
 
-const findLowestAvailableCell = (selectedColumn: number, boardState: number[][] ) => {
-   return boardState[selectedColumn].findIndex((cell: number) => cell !== 0) - 1;
+const findLowestAvailableCell = (selectedColumn: number, boardState: (Player | null)[][] ) => {
+   return boardState[selectedColumn].findIndex((cell: Player | null) => cell !== null) - 1;
 }
 
-const correctForOutOfBounds = (lowestAvailableCell: number, columnState: number[]) => {
+const correctForOutOfBounds = (lowestAvailableCell: number, columnState: (Player | null)[]) => {
     return lowestAvailableCell < 0 ? columnState.length -1 : lowestAvailableCell;
 }
 
 interface Props {
-    currentPlayer: number;
-    changeCurrentPlayer: Function;
+    currentPlayer: Player;
+    changePlayer: Function;
 }
 export default Board

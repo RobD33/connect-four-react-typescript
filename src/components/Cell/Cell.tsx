@@ -1,30 +1,24 @@
 import React from 'react';
 import './Cell.css';
+import Player from '../../data/Player';
 
-const Cell = ({ cellState, makeMove }: Props) => {
+const Cell = ({ player, makeMove }: Props) => {
   return (
     <div className="cell" onClick={() => makeMove()}>
       <div className="left_border"/>
-      <div className="window" style={{ backgroundColor: getColour(cellState) }}/>
+      <div className="window" style={{ backgroundColor: getColour(player) }}/>
       <div className="right_border"/>
     </div>
   );
 }
 
-const getColour = (cellState: number) => {
-    switch(cellState) {
-        case 1:
-            return 'red'
-        case 2:
-            return 'yellow'
-        default:
-            return 'white'
-    }
+const getColour = (player: (Player | null)) :string => {
+    return player ? player.getColour() : 'white';
 }
   
 export default Cell;
 
 interface Props {
-  cellState: number;
+  player: (Player | null);
   makeMove: Function;
 }
