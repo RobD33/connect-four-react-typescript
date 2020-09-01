@@ -6,7 +6,7 @@ import Player from '../../data/Player';
 const Column = ({ columnState, makeMove }: Props) => {
     return (
         <div className="column">
-            {populateColumn(columnState, makeMove)}
+            {populateColumn(columnState, checkForFullColumnWrapper(columnState, makeMove))}
         </div>
     )
 }
@@ -22,6 +22,12 @@ function populateColumn(columnState: (Player | null)[], makeMove: Function) {
     }
     return column
 }
+
+const checkForFullColumnWrapper = (columnState  :(Player | null)[], func: Function) :Function => {
+    return columnState.includes(null) ? func : fullColumnHandler;
+}
+
+const fullColumnHandler = () => {}
 
 interface Props {
     columnState: (Player | null)[];

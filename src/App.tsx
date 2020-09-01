@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import './App.css';
 import Board from './components/Board/Board'
 import Player from './data/Player';
@@ -31,7 +31,7 @@ const createNewGameData = () => {
     name: 'Clive',
     playerNumber: 2,
     colour: 'yellow',
-    highlightColour: '#ffffbd'
+    highlightColour: '#ffffbd',
   }
 
   const playerOne: Player = new Player(playerOneParams);
