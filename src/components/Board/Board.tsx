@@ -56,7 +56,7 @@ const findLowestAvailableCell = (selectedColumn: number, boardState: (Player | n
 }
 
 const correctForOutOfBounds = (lowestAvailableCell: number, columnState: (Player | null)[]) => {
-    return lowestAvailableCell < 0 ? columnState.length -1 : lowestAvailableCell;
+    return lowestAvailableCell < 0 ? columnState.length - 1 : lowestAvailableCell;
 }
 
 interface Props {
