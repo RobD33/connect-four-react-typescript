@@ -9,25 +9,25 @@ import CellData from '../../data/CellData';
 const Board = ({ gameData }: Props) => {
     const [boardState, setBoardState] = React.useState(generateNewBoardState());
 
-    const makeMove = useCallback((selectedColumn)=> {
-        setBoardState(calculateNewBoardState(selectedColumn, boardState, gameData.currentPlayer));
-        gameData.changePlayer();
+    const changeBoard = useCallback((selectedColumn,action)=> {
+        setBoardState(calculateNewBoardState(selectedColumn, boardState, gameData.currentPlayer, action));
+        if (action === 'move') gameData.changePlayer();
     }, [boardState, gameData]);
 
     return (
         <div className="board">
-            { populateBoard(boardState, makeMove, gameData.currentPlayer) }
+            { populateBoard(boardState, changeBoard, gameData.currentPlayer) }
         </div>
     );
 };
 
-const populateBoard = ( boardState: CellData[][], makeMove: Function, currentPlayer : Player ) => {
+const populateBoard = ( boardState: CellData[][], changeBoard: Function, currentPlayer : Player ) => {
     const board: JSX.Element[] = [];
     for(let i = 0; i < 7; i++){
         board.push(<Column 
             key={ i }
             columnState={ boardState[i] }
-            makeMove={ () => makeMove(i) }
+            changeBoard={ (action: String) => changeBoard(i, action) }
             currentPlayer={ currentPlayer }
         />);
     }
@@ -46,10 +46,23 @@ const generateNewBoardState= () : CellData[][] => {
     return board;
 }
 
-const calculateNewBoardState = (selectedColumn: number, boardState: CellData[][], currentPlayer: Player) => {
+const calculateNewBoardState = (selectedColumn: number, boardState: CellData[][], currentPlayer: Player, action : string) => {
     let lowestAvailableCell = findLowestAvailableCell(selectedColumn, boardState);
     lowestAvailableCell = correctForOutOfBounds(lowestAvailableCell, boardState[selectedColumn])
-    boardState[selectedColumn][lowestAvailableCell].player = currentPlayer;
+    switch (action) {
+        case 'move':
+            boardState[selectedColumn][lowestAvailableCell].player = currentPlayer;
+            break;
+        case 'highlight':
+            boardState[selectedColumn][lowestAvailableCell].highlight = true;
+            break;
+        case 'removeHighlight':
+            boardState[selectedColumn].forEach(cell => {
+                cell.highlight = false;
+            })
+            break;
+        default:
+      }
     return [...boardState];
 }
 

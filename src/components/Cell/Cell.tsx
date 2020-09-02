@@ -3,9 +3,13 @@ import './Cell.css';
 import CellData from '../../data/CellData';
 import Player from '../../data/Player';
 
-const Cell = ({ cellData, makeMove, currentPlayer }: Props) => {
+const Cell = ({ cellData, changeBoard, currentPlayer }: Props) => {
   return (
-    <div className="cell" onClick={() => makeMove()}>
+    <div className="cell"
+        onClick={() => changeBoard('move')}
+        onMouseEnter={()=>changeBoard('highlight')}
+        onMouseLeave={() => changeBoard('removeHighlight')}
+    >
       <div className="left_border"/>
       <div className="window" style={{ backgroundColor: getColour(cellData, currentPlayer) }}/>
       <div className="right_border"/>
@@ -22,6 +26,6 @@ export default Cell;
 
 interface Props {
   cellData: CellData;
-  makeMove: Function;
+  changeBoard: Function;
   currentPlayer: Player;
 }
